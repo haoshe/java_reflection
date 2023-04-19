@@ -141,7 +141,7 @@ public class RefletionDemo01 {
 		Person person = (Person)instance;
 		person.interface2Method();
 	}
-	
+	//这个异常是测试demo07时抛出的
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
 		//demo01();
 		//demo02();
