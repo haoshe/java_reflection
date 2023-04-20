@@ -48,6 +48,9 @@ public class Person implements MyInterface,MyInterface2{
 		System.out.println("private method...");
 	}
 	
+	private void privateMethod2(String name, int age) {
+		System.out.println("prvatee Method2..." + name + "," + age);
+	}
 	public static void staticMethod() {
 		System.out.println("StaticMethod...");
 	}
