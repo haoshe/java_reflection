@@ -6,6 +6,10 @@ public class Person implements MyInterface,MyInterface2{
 	private int age;
 	public String desc;
 	
+	private Person(String name) {
+		this.name = name;
+	}
+	
 	public Person() {
 		
 	}
