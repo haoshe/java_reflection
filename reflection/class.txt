@@ -1,0 +1,2 @@
+className=com.haoshe.reflection.Person
+methodName=staticMethod
