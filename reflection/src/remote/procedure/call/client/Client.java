@@ -57,12 +57,12 @@ public class Client {
 					//for example: String Id, String is the parameter type, Id is the parameter name
 					//interface name and method name are strings, use method: writeUTF()
 					output.writeUTF(serviceInterface.getName());//send interface name
-					output.writeUTF(method.getName());//send mehtod name
+					output.writeUTF(method.getName());//send method name
 					// there could be multiple parameter types and parameters, that's why we have to use Object to receive any class types
 					output.writeObject(method.getParameterTypes());
 					output.writeObject(args);
 					//client has sent the all the requests, now we are waiting for the server to handle these requests...
-					//received the returned value of the method from the server
+					//receive the returned value of the method from the server
 					input = new ObjectInputStream(socket.getInputStream());
 					return input.readObject();//if there is an exception, this statement will not be executed, there will be no value returned
 				}catch(Exception e) {//if there is an exception, the program will jump directly here
