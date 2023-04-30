@@ -1,4 +1,4 @@
-package socket;
+package socket1;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class MyServer {
 	public static void main(String[] args) throws IOException {
-		//server uses ServerSocket to suppley a port to the outside(client)
+		//server uses ServerSocket to supply a port to the outside(client)
 		//binding server's port, IP address defaults to the local IP address
 		//the server releases a service to the outside, the address of the service: local IP : 9999
 		ServerSocket server = new ServerSocket(9999);

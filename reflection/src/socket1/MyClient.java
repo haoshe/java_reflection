@@ -1,4 +1,4 @@
-package socket;
+package socket1;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ public class MyClient {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		//client visits the server through Socket
 		//the client connects to the service released by the server
-		Socket socket = new Socket("192.168.1.54",9999);
+		Socket socket = new Socket("192.168.1.55",9999);
 		
 		//accept the message sent by the server using InputStream
 		InputStream in = socket.getInputStream();
