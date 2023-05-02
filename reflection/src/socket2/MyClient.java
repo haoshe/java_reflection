@@ -12,7 +12,7 @@ public class MyClient {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		//client visits the server through Socket
 		//the client connects to the service released by the server
-		Socket socket = new Socket("192.168.1.33",9999);
+		Socket socket = new Socket("192.168.1.55",9999);
 		
 		//accept the message sent by the server using InputStream
 		InputStream in = socket.getInputStream();
@@ -52,7 +52,8 @@ public class MyClient {
 			//write(byte b[], int off, int len)
 			fileOut.write(fileBytes,0,len);
 		}
-			
+		System.out.println("download succeed!");
+		
 		//don't forget to close everything
 		fileOut.close();
 		in.close();
