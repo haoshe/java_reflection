@@ -70,6 +70,27 @@ public class FileSplit {
 			//only move the data to count.part, not closing the out stream
 			out.flush();
 		}
+		//when while loop finishes, count variable will be 1 number bigger than it is inside while loop
+		
+		//when we split the file, how do we keep the original file name and the number of split files, for the preparation of combining sub files into the original file later
+		//the way is to create a configuration file(9.conf), storing above description message 
+		
+		//method1:
+		out = new FileOutputStream(new File(splitDir, count+".config"));
+		
+		//output stream is a byte stream, has to be converted to byte array
+		//inside 9.config file, will like: filename=solicitors letter 1.pdf
+		//                                 partcount=2
+		
+		//we need a line separator for each line, otherwise it will be like: filename=solicitors letter 1.pdfpartcount=2
+		//get current operation system line separator(当前操作系统换行符)
+		String lineSeparator = System.getProperty("line.separator");
+		out.write(("filename=" + sourceFile.getName()).getBytes());
+		out.write(lineSeparator.getBytes());
+		out.write(("partcount=" + (count-1)).getBytes());
+		out.close();
+		//out.flush();
+		
 		in.close();
 	}
 }
