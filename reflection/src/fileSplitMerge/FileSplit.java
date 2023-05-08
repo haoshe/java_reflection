@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Properties;
 
 /*
  * file split and merge
@@ -84,13 +85,31 @@ public class FileSplit {
 		
 		//we need a line separator for each line, otherwise it will be like: filename=solicitors letter 1.pdfpartcount=2
 		//get current operation system line separator(当前操作系统换行符)
-		String lineSeparator = System.getProperty("line.separator");
-		out.write(("filename=" + sourceFile.getName()).getBytes());
-		out.write(lineSeparator.getBytes());
-		out.write(("partcount=" + (count-1)).getBytes());
-		out.close();
+//		String lineSeparator = System.getProperty("line.separator");
+//		out.write(("filename=" + sourceFile.getName()).getBytes());
+//		out.write(lineSeparator.getBytes());
+//		out.write(("partcount=" + (count-1)).getBytes());
+//		out.close();
 		//out.flush();
 		
+		//method 1 is too troublesome
+		//method2: Properties write properties in the memory on to hard disk in a form of key=value
+		Properties prop = new Properties();
+		
+		//Properties can change lines automatically after each key=value
+		//key and value both have to be strings. add "" can convert a number into a string
+		//setProperty() is to assign a value to a key
+		prop.setProperty("filename", sourceFile.getName());
+		prop.setProperty("partcount", (count-1)+"");
+		
+		//after assigning the value to a key, we need to write them to the hard disk
+		//写入硬盘(保存: 持久化)
+		//* @param   out      an output stream.
+	    //* @param   comments   a description of the property list.
+		//public void store(OutputStream out, String comments)
+		prop.store(out, "file configuration...");
+		
+		out.close();
 		in.close();
 	}
 }
