@@ -77,7 +77,8 @@ public class FileSplit {
 		//the way is to create a configuration file(9.conf), storing above description message 
 		
 		//method1:
-		out = new FileOutputStream(new File(splitDir, count+".config"));
+		//config.properties is the common name for configuration files
+		out = new FileOutputStream(new File(splitDir, "config.properties"));
 		
 		//output stream is a byte stream, has to be converted to byte array
 		//inside 9.config file, will like: filename=solicitors letter 1.pdf

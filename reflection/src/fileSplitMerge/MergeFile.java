@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 public class MergeFile {
 	
@@ -51,10 +52,33 @@ public class MergeFile {
 		mergeFile(splitDir);
 	}
 	
+	public static Properties getProperties() throws FileNotFoundException, IOException {
+		
+		//find the location of the configuration file
+		String configFileName = "/Users/haoshe/Desktop/splitDir/config.properties";
+		
+		//prop is a property file(属性文件)
+		Properties prop = new Properties();
+		
+		//load the configFile into prop in a form of bytes stream
+		prop.load(new FileInputStream(configFileName));
+		return prop;
+	}
+	
 	//merge files in splitDir folder
 	public static void mergeFile(File splitDir) throws IOException {
+		
+		//before merging the files, we need to read the configuration file first
+		//getProperties() here is a method we write ourselves
+		Properties prop = getProperties();
+		
+		//getProperty() returns the value based on the key. 
+		//return value is a String. 
+		String fileName = prop.getProperty("filename");
+		int partCount = Integer.parseInt(prop.getProperty("partcount"));
+		
 		List<FileInputStream> inputs = new ArrayList<>();
-		for(int i=1; i<=2; i++) {
+		for(int i=1; i<=partCount; i++) {
 			inputs.add(new FileInputStream("/Users/haoshe/Desktop/splitDir/" + i + ".part"));
 		}
 		
@@ -76,8 +100,8 @@ public class MergeFile {
 		 */
 		SequenceInputStream sqInput = new SequenceInputStream(en);
 		
-		//specify the output stream of the merged files(指定合并后的文件输出流)
-		OutputStream out = new FileOutputStream("/Users/haoshe/Desktop/SplitAndMergedFile.pdf");
+		//specify the output stream of the merged files(指定合并后的文件输出流的去处)
+		OutputStream out = new FileOutputStream("/Users/haoshe/Desktop/splitDir/" + fileName);
 		
 		//output sqInput(similar to file copy/类似于文件复制)
 		byte[] buffer = new byte[1024];
