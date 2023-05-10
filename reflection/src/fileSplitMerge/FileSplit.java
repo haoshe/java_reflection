@@ -2,6 +2,7 @@ package fileSplitMerge;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,15 +21,50 @@ public class FileSplit {
 		//source file to be split
 		File sourceFile = new File("/Users/haoshe/Desktop/solicitors letter 1.pdf");
 		
-		//new file can get a file, also can create a directory
+		//new File() not only can get a file, but also can create a directory
 		//create the directory used to store split files (生成一个目录,用来存放拆分后的文件)
 		File splitDir = new File("/Users/haoshe/Desktop/splitDir");
 		
-		//the method is used to split the sourceFile into several parts, and put these parts into splitDir folder
-		splitFile(sourceFile, splitDir);
+		//number of software usage: 5
+		if(hasRemainingTries()) {
+			//the method is used to split the sourceFile into several parts, and put these parts into splitDir folder
+			splitFile(sourceFile, splitDir);
+		}else {
+			System.out.println("the number of usage has reached the limit.");
+		}
 		
 	}
 	
+	//number of usages has to be stored on the hard disk, can't be in the memory
+	//every time we use the software, comparing the number with 5, then increase the number by one
+	private static boolean hasRemainingTries() throws FileNotFoundException, IOException {
+		Properties prop = new Properties();
+		int count = 0;
+		//every time when use: 1.check how many times has been used(3); 2.then add 1 to the previous number of times(4)
+		//check how many times has been used previously
+		prop.load(new FileInputStream("/Users/haoshe/Desktop/splitDir/tries.properties"));
+		
+		//the first time we will get a null
+		String times = prop.getProperty("times");
+		
+		if(times == null) {//1st time
+			//first time we get null. After using it, count becomes 1. Then we need to put 1 back
+			count = 1;
+			prop.setProperty("times", count+"");
+		}else {//not the first time
+			//get the previous usage times, add 1 to it, then put it back
+			int timeCount = Integer.parseInt(times);
+			timeCount++;
+			prop.setProperty("times", timeCount+"");
+			
+			if(timeCount>5) {
+				return false;
+			}
+		}
+		prop.store(new FileOutputStream("/Users/haoshe/Desktop/splitDir/tries.properties"), "number of usages");
+		return true;
+	}
+
 	public static void splitFile(File sourceFile, File splitDir) throws IOException {
 		
 		//if the directory doesn't exit, we create it
