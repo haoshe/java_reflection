@@ -1,12 +1,15 @@
 package json;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 //download json.jar from https://jar-download.com/artifacts/org.json
@@ -97,13 +100,42 @@ public class SampleDemo01 {
 		JSONObject json = new JSONObject(s);
 		System.out.println(json);
 	}
+	
+	//create a JSON file
+	public static void demo05() throws JSONException, IOException {
+		//prepare a json data using a map
+		Map<String, Person> map = new HashMap<>();
+		Person p1 = new Person(18, "Katie", new Address("dublin1", "cork1"));
+		Person p2 = new Person(20, "Kevin", new Address("dublin2", "cork2"));
+		Person p3 = new Person(24, "Daniel", new Address("dublin3", "cork3"));
+		map.put("Katie",p1);
+		map.put("kevin", p2);
+		map.put("Daniel", p3);
+		
+		//map -> json
+		JSONObject json = new JSONObject(map);
+		
+		//create a json file
+		//write() needs a Writer object, Writer is an abstract class, we have to use its implementation class: FileWriter
+		//new FileWriter("location where you want to put the json file")
+		Writer writer = new FileWriter("/Users/haoshe/Desktop/jsonPerson.obj");
+		json.write(writer);
+		
+		//we have to use writer.close/writer.flush to move the file from the memory to the hard disk
+		//otherwise the file will still be inside input/output stream, the file will be created on the hard disk but there will be nothing in it
+		writer.close();
+	}
 
 	public static void main(String[] args) throws IOException {
 		
 		//demo01();//{"01":"Katie","02":"Kevin","03":"Daniel"}
 		//demo02();
 		//demo03();
-		SampleDemo01 sample = new SampleDemo01();
-		sample.demo04();
+		
+		//demo04 is not a static method, so we has to create an object to use it
+		//SampleDemo01 sample = new SampleDemo01();
+		//sample.demo04();
+		
+		demo05();
 	}
 }
