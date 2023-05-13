@@ -1,13 +1,17 @@
 package json;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 //download json.jar from https://jar-download.com/artifacts/org.json
 //copy file json.jar to src folder
-//right click json.jar, choose Build Path
+//right click json.jar, choose Build Path, then click Add to Build Path
 
 public class SampleDemo01 {
 	
@@ -60,11 +64,46 @@ public class SampleDemo01 {
 		JSONObject json = new JSONObject(str);
 		System.out.println(json);
 	}
+	
+	//file -> JSON (file -> String -> JSON)
+	//we want to use Object.getClass(), but this method is not a static method
+	//static method can only call another static method, so we can't specify demo04() as a static method
+	public void demo04() throws IOException {
+		//absolute path(绝对路径)
+		//new File("C:/abc/a.txt")
+		
+		//this method can get an input stream using relative path(相对路径) of a file
+//		InputStream in = super.getClass().getClassLoader().getResourceAsStream("json/per.json");
+//		byte[] buffer = new byte[10];
+//		int len = -1;
+//		//for concatenating Strings
+//		StringBuffer sb = new StringBuffer();
+//		while((len = in.read(buffer)) != -1) {
+//			//byte[] -> String
+//			String str = new String(buffer, 0, len);
+//			//concatenate strings(链接字符串)
+//			sb.append(str);
+// 		}
+//		//StringBuffer -> String
+//		String s = sb.toString();
+		
+		//above method is too troublesome, we can use commons-io.jar to convert a file to a String
+		//download commons-io.jar, copy it to src folder, right click it, choose Build Path, then choose Add to Build Path
+		//new File() needs the absolute path of the file, how to get the absolute path?
+		//right click the file, choose Properties, then you can find the location of the file. 
+		String s = FileUtils.readFileToString(new File("/Users/haoshe/git/repository/reflection/src/json/per.json"));
+		
+		//String -> JSON
+		JSONObject json = new JSONObject(s);
+		System.out.println(json);
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		//demo01();//{"01":"Katie","02":"Kevin","03":"Daniel"}
 		//demo02();
-		demo03();
+		//demo03();
+		SampleDemo01 sample = new SampleDemo01();
+		sample.demo04();
 	}
 }
